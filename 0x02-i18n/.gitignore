@@ -1,2 +1,2 @@
-# pybabel extract output file
+__pycache__/*
 messages.pot
