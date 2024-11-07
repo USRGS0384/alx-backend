@@ -1,37 +1,53 @@
 #!/usr/bin/env python3
-""" Parametrize templates
+"""Module for task 3
 """
 from flask import Flask, render_template, request
-from flask_babel import Babel, _
+from flask_babel import Babel
 
 app = Flask(__name__)
-babel = Babel(app)
+
+app.url_map.strict_slashes = False
 
 
 class Config:
-    """ Config
+    """Represents a Flask Babel configuration.
     """
-    LANGUAGES = ['en', 'fr']
-    BABEL_DEFAULT_LOCALE = 'en'
-    BABEL_DEFAULT_TIMEZONE = 'UTC'
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
 app.config.from_object(Config)
+babel = Babel(app)
+
+
+@app.route("/")
+def index_3() -> str:
+    """The index function displays the home page of the web application.
+
+    Returns:
+        str: contents of the home page.
+    """
+    return render_template("3-index.html")
 
 
 @babel.localeselector
-def get_locale():
-    """ determine the best match with our supported languages
+def get_locale() -> str:
+    """Determines the best match for the client's preferred language.
+
+    This function uses Flask's request object to access the client's preferred
+    languages and the app's supported languages (defined in the Config class)
+    to determine the best match. The best match is then returned as the locale.
+
+    Returns:
+        str: The locale code for the best match (e.g. "en", "fr").
     """
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    # Get list of supported languages from Config
+    supported_languages = app.config["LANGUAGES"]
+    # Use request.accept_languages to get the best match
+    best_match = request.accept_languages.best_match(supported_languages)
+    return best_match
 
 
-@app.route('/')
-def index():
-    """ return a hello world page
-    """
-     return render_template('3-index.html', title=_("home_title"), header=_("home_header"))
-
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(debug=True)
