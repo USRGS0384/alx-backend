@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-A Basic flask application
+"""Module for task 8
 """
 from typing import Dict, Union
 from flask import Flask, render_template, request, g
