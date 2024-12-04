@@ -1,7 +1,10 @@
-const createPushNotificationsJobs = (jobs, queue) => {
-  if (!Array.isArray(jobs)) {
-    throw new Error('Jobs is not an array');
+
+export function addJobToQueue(queue, job) {
+  if (!queue || !job) {
+    throw new Error('Invalid arguments');
   }
+  queue.push(job);
+}
 
   jobs.forEach(jobInfo => {
     const job_ = queue.create('push_notification_code_3', jobInfo);
