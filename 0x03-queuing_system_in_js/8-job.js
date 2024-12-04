@@ -1,4 +1,4 @@
-
+import { addJobToQueue } from './8-jobs';
 export function addJobToQueue(queue, job) {
   if (!queue || !job) {
     throw new Error('Invalid arguments');
